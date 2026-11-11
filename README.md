@@ -166,6 +166,38 @@ mvnw.cmd test
 
 Cobrem: fluxo de domínio do pedido (transições de status), validadores de pedido, persistência de ONG/Jovem/Peça/Usuário e um teste de controller (requisição inválida → 400). Os testes de persistência utilizam o perfil `test` e o banco `trajetoria_test` (o Flyway cria o schema automaticamente).
 
+## Evidências
+
+### Execução, banco e documentação
+
+| Critério | Evidência |
+| --- | --- |
+| Testes automatizados (`mvnw test` — 15 testes, BUILD SUCCESS) | ![Build success](evidencias/prints/01-build-success.png) |
+| Banco de dados (schema `trajetoria` com as tabelas e dados) | ![Tabelas MySQL](evidencias/prints/02-mysql-tables.png) |
+| Documentação interativa (Swagger UI) | ![Swagger UI](evidencias/prints/03-swagger-ui.png) |
+| Endpoint respondendo `200` (Swagger) | ![Requisição 200 no Swagger](evidencias/prints/04-code200-swagger.png) |
+
+### Fluxo completo (smoke test)
+
+As respostas JSON de cada etapa do fluxo estão registradas em [`evidencias/`](evidencias):
+
+1. [`01-login-admin.json`](evidencias/01-login-admin.json) — autenticação do administrador
+2. [`02-cadastro-ong.json`](evidencias/02-cadastro-ong.json) — cadastro de ONG
+3. [`03-cadastro-usuario-jovem.json`](evidencias/03-cadastro-usuario-jovem.json) — usuário com perfil `JOVEM`
+4. [`04-cadastro-jovem.json`](evidencias/04-cadastro-jovem.json) — cadastro do jovem vinculado à ONG
+5. [`05-validar-jovem.json`](evidencias/05-validar-jovem.json) — validação do jovem pela ONG
+6. [`06-cadastro-peca-1.json`](evidencias/06-cadastro-peca-1.json) e [`07-cadastro-peca-2.json`](evidencias/07-cadastro-peca-2.json) — peças no acervo
+7. [`08-login-jovem.json`](evidencias/08-login-jovem.json) — autenticação do jovem
+8. [`09-criar-pedido.json`](evidencias/09-criar-pedido.json) — pedido `SOLICITADO` com peças `RESERVADA`
+9. [`10-aprovar-pedido.json`](evidencias/10-aprovar-pedido.json) — pedido `APROVADO` com peças `SEPARADA`
+10. [`11-despachar-pedido.json`](evidencias/11-despachar-pedido.json) — pedido `DESPACHADO`
+11. [`12-entregar-pedido.json`](evidencias/12-entregar-pedido.json) — pedido `ENTREGUE`
+12. [`13-feedback-pedido.json`](evidencias/13-feedback-pedido.json) — feedback das peças
+13. [`14-consultar-acervo-disponivel.json`](evidencias/14-consultar-acervo-disponivel.json) — consulta do acervo
+14. [`15-consultar-pedidos-ong.json`](evidencias/15-consultar-pedidos-ong.json) — pedidos por ONG
+
+O fluxo pode ser reproduzido de ponta a ponta com o script [`scripts/smoke-test.ps1`](scripts/smoke-test.ps1), com a aplicação em execução.
+
 ## Estrutura do projeto
 
 ```
