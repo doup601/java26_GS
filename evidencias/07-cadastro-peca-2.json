@@ -1,0 +1,12 @@
+{
+    "id":  2,
+    "nome":  "Calça social preta",
+    "categoria":  "CALCA",
+    "tamanho":  "M",
+    "estado_conservacao":  "BOM",
+    "foto_url":  "https://exemplo.com/calca.jpg",
+    "local_armazem":  "A2",
+    "origem":  "Doação",
+    "status":  "DISPONIVEL",
+    "motivo_descarte":  null
+}

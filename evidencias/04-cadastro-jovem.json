@@ -1,0 +1,21 @@
+{
+    "id":  1,
+    "nome":  "Maria Silva",
+    "email":  "maria.083623@email.com",
+    "telefone":  "11 97777-0000",
+    "tamanho":  "M",
+    "id_ong":  1,
+    "nome_ong":  "Instituto Recomeço 083623",
+    "endereco":  {
+                     "logradouro":  "Rua das Flores",
+                     "numero":  "100",
+                     "complemento":  null,
+                     "bairro":  "Centro",
+                     "cidade":  "São Paulo",
+                     "uf":  "SP",
+                     "cep":  "01000-000"
+                 },
+    "validado":  false,
+    "consentimento_aceito":  true,
+    "ativo":  true
+}

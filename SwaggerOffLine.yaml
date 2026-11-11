@@ -1,0 +1,1729 @@
+openapi: 3.1.0
+info:
+  title: TRAJEtória
+  description: "API REST da plataforma TRAJEtória: doação de roupas sociais para jovens\
+    \ em vulnerabilidade, indicados por ONGs parceiras. Projeto da Global Solution\
+    \ CitizenTech - FIAP 2026."
+  contact:
+    name: Goddess Tech
+    email: trajetoria@email.com.br
+  license:
+    name: Apache 2.0
+    url: http://springdoc.org
+servers:
+- url: http://localhost:8085
+  description: Generated server url
+tags:
+- name: Jovens
+  description: Cadastro e validação dos jovens atendidos pelas ONGs
+- name: Pedidos
+  description: "Fluxo completo do pedido: solicitação, aprovação, despacho, entrega\
+    \ e feedback"
+- name: ONGs
+  description: Gestão das ONGs parceiras da TRAJEtória
+- name: Peças
+  description: Acervo de peças de roupa disponíveis para doação
+paths:
+  /usuarios:
+    get:
+      tags:
+      - usuario-controller
+      operationId: listar
+      parameters:
+      - name: page
+        in: query
+        description: Zero-based page index (0..N)
+        required: false
+        schema:
+          type: integer
+          default: 0
+          minimum: 0
+      - name: size
+        in: query
+        description: The size of the page to be returned
+        required: false
+        schema:
+          type: integer
+          default: 10
+          minimum: 1
+      - name: sort
+        in: query
+        description: "Sorting criteria in the format: property,(asc|desc). Default\
+          \ sort order is ascending. Multiple sort criteria are supported."
+        required: false
+        schema:
+          type: array
+          default:
+          - "login,ASC"
+          items:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/PageDadosListagemUsuario"
+      security:
+      - bearer-key: []
+    put:
+      tags:
+      - usuario-controller
+      operationId: atualizar
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DadosAtualizacaoUsuario"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/DadosDetalhamentoUsuario"
+      security:
+      - bearer-key: []
+    post:
+      tags:
+      - usuario-controller
+      operationId: cadastrar
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DadosCadastroUsuario"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/DadosDetalhamentoUsuario"
+      security:
+      - bearer-key: []
+  /pecas:
+    get:
+      tags:
+      - Peças
+      summary: "Lista o acervo com filtros opcionais de status, categoria e tamanho"
+      operationId: listar_1
+      parameters:
+      - name: status
+        in: query
+        required: false
+        schema:
+          type: string
+          enum:
+          - DISPONIVEL
+          - RESERVADA
+          - SEPARADA
+          - DESPACHADA
+          - ENTREGUE
+          - DESCARTADA
+      - name: categoria
+        in: query
+        required: false
+        schema:
+          type: string
+          enum:
+          - BLAZER
+          - CALCA
+          - CAMISA
+          - SAIA
+          - VESTIDO
+          - TERNO
+          - OUTRO
+      - name: tamanho
+        in: query
+        required: false
+        schema:
+          type: string
+          enum:
+          - P
+          - M
+          - G
+          - GG
+          - XG
+      - name: page
+        in: query
+        description: Zero-based page index (0..N)
+        required: false
+        schema:
+          type: integer
+          default: 0
+          minimum: 0
+      - name: size
+        in: query
+        description: The size of the page to be returned
+        required: false
+        schema:
+          type: integer
+          default: 10
+          minimum: 1
+      - name: sort
+        in: query
+        description: "Sorting criteria in the format: property,(asc|desc). Default\
+          \ sort order is ascending. Multiple sort criteria are supported."
+        required: false
+        schema:
+          type: array
+          default:
+          - "nome,ASC"
+          items:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/PageDadosListagemPeca"
+      security:
+      - bearer-key: []
+    put:
+      tags:
+      - Peças
+      operationId: atualizar_1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DadosAtualizacaoPeca"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/DadosDetalhamentoPeca"
+      security:
+      - bearer-key: []
+    post:
+      tags:
+      - Peças
+      operationId: cadastrar_1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DadosCadastroPeca"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/DadosDetalhamentoPeca"
+      security:
+      - bearer-key: []
+  /ongs:
+    get:
+      tags:
+      - ONGs
+      operationId: listar_2
+      parameters:
+      - name: page
+        in: query
+        description: Zero-based page index (0..N)
+        required: false
+        schema:
+          type: integer
+          default: 0
+          minimum: 0
+      - name: size
+        in: query
+        description: The size of the page to be returned
+        required: false
+        schema:
+          type: integer
+          default: 10
+          minimum: 1
+      - name: sort
+        in: query
+        description: "Sorting criteria in the format: property,(asc|desc). Default\
+          \ sort order is ascending. Multiple sort criteria are supported."
+        required: false
+        schema:
+          type: array
+          default:
+          - "nome,ASC"
+          items:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/PageDadosListagemOng"
+      security:
+      - bearer-key: []
+    put:
+      tags:
+      - ONGs
+      operationId: atualizar_2
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DadosAtualizacaoOng"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/DadosDetalhamentoOng"
+      security:
+      - bearer-key: []
+    post:
+      tags:
+      - ONGs
+      operationId: cadastrar_2
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DadosCadastroOng"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/DadosDetalhamentoOng"
+      security:
+      - bearer-key: []
+  /login/senha:
+    put:
+      tags:
+      - login-controller
+      operationId: alterarSenha
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DadosAlteracaoSenha"
+        required: true
+      responses:
+        "200":
+          description: OK
+  /jovens:
+    get:
+      tags:
+      - Jovens
+      operationId: listar_3
+      parameters:
+      - name: ong
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int64
+      - name: page
+        in: query
+        description: Zero-based page index (0..N)
+        required: false
+        schema:
+          type: integer
+          default: 0
+          minimum: 0
+      - name: size
+        in: query
+        description: The size of the page to be returned
+        required: false
+        schema:
+          type: integer
+          default: 10
+          minimum: 1
+      - name: sort
+        in: query
+        description: "Sorting criteria in the format: property,(asc|desc). Default\
+          \ sort order is ascending. Multiple sort criteria are supported."
+        required: false
+        schema:
+          type: array
+          default:
+          - "nome,ASC"
+          items:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/PageDadosListagemJovem"
+      security:
+      - bearer-key: []
+    put:
+      tags:
+      - Jovens
+      operationId: atualizar_3
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DadosAtualizacaoJovem"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/DadosDetalhamentoJovem"
+      security:
+      - bearer-key: []
+    post:
+      tags:
+      - Jovens
+      operationId: cadastrar_3
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DadosCadastroJovem"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/DadosDetalhamentoJovem"
+      security:
+      - bearer-key: []
+  /pedidos:
+    get:
+      tags:
+      - Pedidos
+      summary: "Lista os pedidos, opcionalmente filtrando pela ONG do jovem"
+      operationId: listar_4
+      parameters:
+      - name: ong
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int64
+      - name: page
+        in: query
+        description: Zero-based page index (0..N)
+        required: false
+        schema:
+          type: integer
+          default: 0
+          minimum: 0
+      - name: size
+        in: query
+        description: The size of the page to be returned
+        required: false
+        schema:
+          type: integer
+          default: 10
+          minimum: 1
+      - name: sort
+        in: query
+        description: "Sorting criteria in the format: property,(asc|desc). Default\
+          \ sort order is ascending. Multiple sort criteria are supported."
+        required: false
+        schema:
+          type: array
+          default:
+          - "dataSolicitacao,ASC"
+          items:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/PageDadosListagemPedido"
+      security:
+      - bearer-key: []
+    post:
+      tags:
+      - Pedidos
+      summary: Cria um pedido de roupas para um jovem validado
+      operationId: cadastrar_4
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DadosPedido"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/DetalhamentoPedido"
+      security:
+      - bearer-key: []
+  /pedidos/{id}/feedback:
+    post:
+      tags:
+      - Pedidos
+      summary: Registra o feedback do jovem após a entrega
+      operationId: feedback
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DadosFeedback"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/DetalhamentoPedido"
+      security:
+      - bearer-key: []
+  /pedidos/{id}/entregar:
+    post:
+      tags:
+      - Pedidos
+      summary: Confirma a entrega do pedido ao jovem
+      operationId: entregar
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/DetalhamentoPedido"
+      security:
+      - bearer-key: []
+  /pedidos/{id}/despachar:
+    post:
+      tags:
+      - Pedidos
+      summary: "Despacha o pedido informando entregador e custo de entrega (máximo\
+        \ R$ 50,00)"
+      operationId: despachar
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DadosDespacho"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/DetalhamentoPedido"
+      security:
+      - bearer-key: []
+  /pedidos/{id}/cancelar:
+    post:
+      tags:
+      - Pedidos
+      summary: Cancela o pedido antes do despacho devolvendo as peças ao acervo
+      operationId: cancelar
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DadosCancelamento"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/DetalhamentoPedido"
+      security:
+      - bearer-key: []
+  /pedidos/{id}/aprovar:
+    post:
+      tags:
+      - Pedidos
+      summary: Aprova o pedido e separa as peças no acervo
+      operationId: aprovar
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/DetalhamentoPedido"
+      security:
+      - bearer-key: []
+  /pecas/{id}/descartar:
+    post:
+      tags:
+      - Peças
+      summary: Descarta uma peça do acervo informando o motivo
+      operationId: descartar
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DadosDescarte"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/DadosDetalhamentoPeca"
+      security:
+      - bearer-key: []
+  /login:
+    post:
+      tags:
+      - login-controller
+      operationId: efetuarLogin
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DadosLogin"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: string
+  /jovens/{id}/validar:
+    post:
+      tags:
+      - Jovens
+      summary: Valida o jovem indicado pela ONG
+      description: Permite que o jovem solicite pedidos de roupas.
+      operationId: validar
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/DadosDetalhamentoJovem"
+      security:
+      - bearer-key: []
+  /usuarios/{id}:
+    get:
+      tags:
+      - usuario-controller
+      operationId: detalhar
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/DadosDetalhamentoUsuario"
+      security:
+      - bearer-key: []
+    delete:
+      tags:
+      - usuario-controller
+      operationId: excluir
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: OK
+      security:
+      - bearer-key: []
+  /pedidos/{id}:
+    get:
+      tags:
+      - Pedidos
+      operationId: detalhar_1
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/DetalhamentoPedido"
+      security:
+      - bearer-key: []
+  /pecas/{id}:
+    get:
+      tags:
+      - Peças
+      operationId: detalhar_2
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/DadosDetalhamentoPeca"
+      security:
+      - bearer-key: []
+    delete:
+      tags:
+      - Peças
+      operationId: excluir_1
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: OK
+      security:
+      - bearer-key: []
+  /ongs/{id}:
+    get:
+      tags:
+      - ONGs
+      operationId: detalhar_3
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/DadosDetalhamentoOng"
+      security:
+      - bearer-key: []
+    delete:
+      tags:
+      - ONGs
+      operationId: excluir_2
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: OK
+      security:
+      - bearer-key: []
+  /jovens/{id}:
+    get:
+      tags:
+      - Jovens
+      operationId: detalhar_4
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/DadosDetalhamentoJovem"
+      security:
+      - bearer-key: []
+    delete:
+      tags:
+      - Jovens
+      operationId: excluir_3
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: OK
+      security:
+      - bearer-key: []
+  /health-check:
+    get:
+      tags:
+      - health-check-controller
+      operationId: healthCheck
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: string
+  /cep/{cep}:
+    get:
+      tags:
+      - cep-controller
+      operationId: consultarCep
+      parameters:
+      - name: cep
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/DadosEnderecoCep"
+      security:
+      - bearer-key: []
+components:
+  schemas:
+    DadosAtualizacaoUsuario:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        login:
+          type: string
+        perfil:
+          type: string
+          enum:
+          - ADMIN
+          - OPERACAO
+          - ONG
+          - JOVEM
+      required:
+      - id
+    DadosDetalhamentoUsuario:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        login:
+          type: string
+        perfil:
+          type: string
+          enum:
+          - ADMIN
+          - OPERACAO
+          - ONG
+          - JOVEM
+    DadosAtualizacaoPeca:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        nome:
+          type: string
+        categoria:
+          type: string
+          enum:
+          - BLAZER
+          - CALCA
+          - CAMISA
+          - SAIA
+          - VESTIDO
+          - TERNO
+          - OUTRO
+        tamanho:
+          type: string
+          enum:
+          - P
+          - M
+          - G
+          - GG
+          - XG
+        estado_conservacao:
+          type: string
+          enum:
+          - NOVO
+          - BOM
+          - RAZOAVEL
+        foto_url:
+          type: string
+        local_armazem:
+          type: string
+        origem:
+          type: string
+      required:
+      - id
+    DadosDetalhamentoPeca:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        nome:
+          type: string
+        categoria:
+          type: string
+          enum:
+          - BLAZER
+          - CALCA
+          - CAMISA
+          - SAIA
+          - VESTIDO
+          - TERNO
+          - OUTRO
+        tamanho:
+          type: string
+          enum:
+          - P
+          - M
+          - G
+          - GG
+          - XG
+        estado_conservacao:
+          type: string
+          enum:
+          - NOVO
+          - BOM
+          - RAZOAVEL
+        foto_url:
+          type: string
+        local_armazem:
+          type: string
+        origem:
+          type: string
+        status:
+          type: string
+          enum:
+          - DISPONIVEL
+          - RESERVADA
+          - SEPARADA
+          - DESPACHADA
+          - ENTREGUE
+          - DESCARTADA
+        motivo_descarte:
+          type: string
+    DadosAtualizacaoOng:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        nome:
+          type: string
+        email:
+          type: string
+          format: email
+        telefone:
+          type: string
+      required:
+      - id
+    DadosDetalhamentoOng:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        nome:
+          type: string
+        email:
+          type: string
+        telefone:
+          type: string
+        ativo:
+          type: boolean
+    DadosAlteracaoSenha:
+      type: object
+      properties:
+        senhaAtual:
+          type: string
+          minLength: 1
+        novaSenha:
+          type: string
+          minLength: 1
+      required:
+      - novaSenha
+      - senhaAtual
+    DadosAtualizacaoJovem:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        nome:
+          type: string
+        email:
+          type: string
+          format: email
+        telefone:
+          type: string
+        tamanho:
+          type: string
+          enum:
+          - P
+          - M
+          - G
+          - GG
+          - XG
+        endereco:
+          $ref: "#/components/schemas/DadosEndereco"
+      required:
+      - id
+    DadosEndereco:
+      type: object
+      properties:
+        logradouro:
+          type: string
+          minLength: 1
+        numero:
+          type: string
+        complemento:
+          type: string
+        bairro:
+          type: string
+          minLength: 1
+        cidade:
+          type: string
+          minLength: 1
+        uf:
+          type: string
+          minLength: 1
+          pattern: "[A-Z]{2}"
+        cep:
+          type: string
+          minLength: 1
+          pattern: "\\d{5}-\\d{3}"
+      required:
+      - bairro
+      - cep
+      - cidade
+      - logradouro
+      - uf
+    DadosDetalhamentoJovem:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        nome:
+          type: string
+        email:
+          type: string
+        telefone:
+          type: string
+        tamanho:
+          type: string
+          enum:
+          - P
+          - M
+          - G
+          - GG
+          - XG
+        id_ong:
+          type: integer
+          format: int64
+        nome_ong:
+          type: string
+        endereco:
+          $ref: "#/components/schemas/DadosEndereco"
+        validado:
+          type: boolean
+        consentimento_aceito:
+          type: boolean
+        ativo:
+          type: boolean
+    DadosCadastroUsuario:
+      type: object
+      properties:
+        login:
+          type: string
+          minLength: 1
+        senha:
+          type: string
+          minLength: 1
+        perfil:
+          type: string
+          enum:
+          - ADMIN
+          - OPERACAO
+          - ONG
+          - JOVEM
+      required:
+      - login
+      - perfil
+      - senha
+    DadosItemPedido:
+      type: object
+      properties:
+        id_peca:
+          type: integer
+          format: int64
+      required:
+      - id_peca
+    DadosPedido:
+      type: object
+      properties:
+        id_jovem:
+          type: integer
+          format: int64
+        itens:
+          type: array
+          items:
+            $ref: "#/components/schemas/DadosItemPedido"
+          minItems: 1
+      required:
+      - id_jovem
+      - itens
+    DadosItemPedidoDetalhe:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        id_peca:
+          type: integer
+          format: int64
+        nome_peca:
+          type: string
+        categoria:
+          type: string
+          enum:
+          - BLAZER
+          - CALCA
+          - CAMISA
+          - SAIA
+          - VESTIDO
+          - TERNO
+          - OUTRO
+        tamanho:
+          type: string
+          enum:
+          - P
+          - M
+          - G
+          - GG
+          - XG
+        status:
+          type: string
+          enum:
+          - DISPONIVEL
+          - RESERVADA
+          - SEPARADA
+          - DESPACHADA
+          - ENTREGUE
+          - DESCARTADA
+        serviu:
+          type: boolean
+    DetalhamentoPedido:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        id_jovem:
+          type: integer
+          format: int64
+        nome_jovem:
+          type: string
+        status:
+          type: string
+          enum:
+          - SOLICITADO
+          - APROVADO
+          - DESPACHADO
+          - ENTREGUE
+          - CANCELADO
+        data_solicitacao:
+          type: string
+          format: date-time
+        itens:
+          type: array
+          items:
+            $ref: "#/components/schemas/DadosItemPedidoDetalhe"
+        entregador:
+          type: string
+        custo_entrega:
+          type: number
+        data_despacho:
+          type: string
+          format: date-time
+        motivo_cancelamento:
+          type: string
+          enum:
+          - JOVEM_DESISTIU
+          - PECA_INDISPONIVEL
+          - FORA_DO_RAIO
+          - OUTROS
+        data_cancelamento:
+          type: string
+          format: date-time
+        foi_entrevista:
+          type: boolean
+        comentario_feedback:
+          type: string
+        data_feedback:
+          type: string
+          format: date-time
+    DadosFeedback:
+      type: object
+      properties:
+        itens:
+          type: array
+          items:
+            $ref: "#/components/schemas/DadosItemFeedback"
+          minItems: 1
+        foi_entrevista:
+          type: boolean
+        comentario:
+          type: string
+      required:
+      - itens
+    DadosItemFeedback:
+      type: object
+      properties:
+        id_item:
+          type: integer
+          format: int64
+        serviu:
+          type: boolean
+      required:
+      - id_item
+      - serviu
+    DadosDespacho:
+      type: object
+      properties:
+        entregador:
+          type: string
+          minLength: 1
+        custo_entrega:
+          type: number
+          maximum: 50.00
+          minimum: 0
+      required:
+      - custo_entrega
+      - entregador
+    DadosCancelamento:
+      type: object
+      properties:
+        motivo:
+          type: string
+          enum:
+          - JOVEM_DESISTIU
+          - PECA_INDISPONIVEL
+          - FORA_DO_RAIO
+          - OUTROS
+      required:
+      - motivo
+    DadosCadastroPeca:
+      type: object
+      properties:
+        nome:
+          type: string
+          minLength: 1
+        categoria:
+          type: string
+          enum:
+          - BLAZER
+          - CALCA
+          - CAMISA
+          - SAIA
+          - VESTIDO
+          - TERNO
+          - OUTRO
+        tamanho:
+          type: string
+          enum:
+          - P
+          - M
+          - G
+          - GG
+          - XG
+        estado_conservacao:
+          type: string
+          enum:
+          - NOVO
+          - BOM
+          - RAZOAVEL
+        foto_url:
+          type: string
+          minLength: 1
+        local_armazem:
+          type: string
+        origem:
+          type: string
+      required:
+      - categoria
+      - estado_conservacao
+      - foto_url
+      - nome
+      - tamanho
+    DadosDescarte:
+      type: object
+      properties:
+        motivo_descarte:
+          type: string
+          minLength: 1
+      required:
+      - motivo_descarte
+    DadosCadastroOng:
+      type: object
+      properties:
+        nome:
+          type: string
+          minLength: 1
+        email:
+          type: string
+          format: email
+          minLength: 1
+        telefone:
+          type: string
+          minLength: 1
+      required:
+      - email
+      - nome
+      - telefone
+    DadosLogin:
+      type: object
+      properties:
+        login:
+          type: string
+          minLength: 1
+        senha:
+          type: string
+          minLength: 1
+      required:
+      - login
+      - senha
+    DadosCadastroJovem:
+      type: object
+      properties:
+        nome:
+          type: string
+          minLength: 1
+        email:
+          type: string
+          format: email
+          minLength: 1
+        telefone:
+          type: string
+          minLength: 1
+        tamanho:
+          type: string
+          enum:
+          - P
+          - M
+          - G
+          - GG
+          - XG
+        id_ong:
+          type: integer
+          format: int64
+        endereco:
+          $ref: "#/components/schemas/DadosEndereco"
+        consentimento_aceito:
+          type: boolean
+      required:
+      - consentimento_aceito
+      - email
+      - endereco
+      - id_ong
+      - nome
+      - tamanho
+      - telefone
+    DadosListagemUsuario:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        login:
+          type: string
+        perfil:
+          type: string
+          enum:
+          - ADMIN
+          - OPERACAO
+          - ONG
+          - JOVEM
+    PageDadosListagemUsuario:
+      type: object
+      properties:
+        totalPages:
+          type: integer
+          format: int32
+        totalElements:
+          type: integer
+          format: int64
+        size:
+          type: integer
+          format: int32
+        content:
+          type: array
+          items:
+            $ref: "#/components/schemas/DadosListagemUsuario"
+        number:
+          type: integer
+          format: int32
+        sort:
+          $ref: "#/components/schemas/SortObject"
+        pageable:
+          $ref: "#/components/schemas/PageableObject"
+        numberOfElements:
+          type: integer
+          format: int32
+        first:
+          type: boolean
+        last:
+          type: boolean
+        empty:
+          type: boolean
+    PageableObject:
+      type: object
+      properties:
+        offset:
+          type: integer
+          format: int64
+        unpaged:
+          type: boolean
+        sort:
+          $ref: "#/components/schemas/SortObject"
+        paged:
+          type: boolean
+        pageSize:
+          type: integer
+          format: int32
+        pageNumber:
+          type: integer
+          format: int32
+    SortObject:
+      type: object
+      properties:
+        empty:
+          type: boolean
+        sorted:
+          type: boolean
+        unsorted:
+          type: boolean
+    DadosListagemPedido:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        nome_jovem:
+          type: string
+        status:
+          type: string
+          enum:
+          - SOLICITADO
+          - APROVADO
+          - DESPACHADO
+          - ENTREGUE
+          - CANCELADO
+        data_solicitacao:
+          type: string
+          format: date-time
+    PageDadosListagemPedido:
+      type: object
+      properties:
+        totalPages:
+          type: integer
+          format: int32
+        totalElements:
+          type: integer
+          format: int64
+        size:
+          type: integer
+          format: int32
+        content:
+          type: array
+          items:
+            $ref: "#/components/schemas/DadosListagemPedido"
+        number:
+          type: integer
+          format: int32
+        sort:
+          $ref: "#/components/schemas/SortObject"
+        pageable:
+          $ref: "#/components/schemas/PageableObject"
+        numberOfElements:
+          type: integer
+          format: int32
+        first:
+          type: boolean
+        last:
+          type: boolean
+        empty:
+          type: boolean
+    DadosListagemPeca:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        nome:
+          type: string
+        categoria:
+          type: string
+          enum:
+          - BLAZER
+          - CALCA
+          - CAMISA
+          - SAIA
+          - VESTIDO
+          - TERNO
+          - OUTRO
+        tamanho:
+          type: string
+          enum:
+          - P
+          - M
+          - G
+          - GG
+          - XG
+        estado_conservacao:
+          type: string
+          enum:
+          - NOVO
+          - BOM
+          - RAZOAVEL
+        status:
+          type: string
+          enum:
+          - DISPONIVEL
+          - RESERVADA
+          - SEPARADA
+          - DESPACHADA
+          - ENTREGUE
+          - DESCARTADA
+    PageDadosListagemPeca:
+      type: object
+      properties:
+        totalPages:
+          type: integer
+          format: int32
+        totalElements:
+          type: integer
+          format: int64
+        size:
+          type: integer
+          format: int32
+        content:
+          type: array
+          items:
+            $ref: "#/components/schemas/DadosListagemPeca"
+        number:
+          type: integer
+          format: int32
+        sort:
+          $ref: "#/components/schemas/SortObject"
+        pageable:
+          $ref: "#/components/schemas/PageableObject"
+        numberOfElements:
+          type: integer
+          format: int32
+        first:
+          type: boolean
+        last:
+          type: boolean
+        empty:
+          type: boolean
+    DadosListagemOng:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        nome:
+          type: string
+        email:
+          type: string
+    PageDadosListagemOng:
+      type: object
+      properties:
+        totalPages:
+          type: integer
+          format: int32
+        totalElements:
+          type: integer
+          format: int64
+        size:
+          type: integer
+          format: int32
+        content:
+          type: array
+          items:
+            $ref: "#/components/schemas/DadosListagemOng"
+        number:
+          type: integer
+          format: int32
+        sort:
+          $ref: "#/components/schemas/SortObject"
+        pageable:
+          $ref: "#/components/schemas/PageableObject"
+        numberOfElements:
+          type: integer
+          format: int32
+        first:
+          type: boolean
+        last:
+          type: boolean
+        empty:
+          type: boolean
+    DadosListagemJovem:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        nome:
+          type: string
+        email:
+          type: string
+        tamanho:
+          type: string
+          enum:
+          - P
+          - M
+          - G
+          - GG
+          - XG
+    PageDadosListagemJovem:
+      type: object
+      properties:
+        totalPages:
+          type: integer
+          format: int32
+        totalElements:
+          type: integer
+          format: int64
+        size:
+          type: integer
+          format: int32
+        content:
+          type: array
+          items:
+            $ref: "#/components/schemas/DadosListagemJovem"
+        number:
+          type: integer
+          format: int32
+        sort:
+          $ref: "#/components/schemas/SortObject"
+        pageable:
+          $ref: "#/components/schemas/PageableObject"
+        numberOfElements:
+          type: integer
+          format: int32
+        first:
+          type: boolean
+        last:
+          type: boolean
+        empty:
+          type: boolean
+    DadosEnderecoCep:
+      type: object
+      properties:
+        logradouro:
+          type: string
+        bairro:
+          type: string
+        cidade:
+          type: string
+        uf:
+          type: string
+        cep:
+          type: string
+  securitySchemes:
+    bearer-key:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

@@ -1,0 +1,35 @@
+{
+    "id":  1,
+    "id_jovem":  1,
+    "nome_jovem":  "Maria Silva",
+    "status":  "ENTREGUE",
+    "data_solicitacao":  "2026-11-11T08:36:24",
+    "itens":  [
+                  {
+                      "id":  1,
+                      "id_peca":  1,
+                      "nome_peca":  "Camisa social branca",
+                      "categoria":  "CAMISA",
+                      "tamanho":  "M",
+                      "status":  "ENTREGUE",
+                      "serviu":  null
+                  },
+                  {
+                      "id":  2,
+                      "id_peca":  2,
+                      "nome_peca":  "Calça social preta",
+                      "categoria":  "CALCA",
+                      "tamanho":  "M",
+                      "status":  "ENTREGUE",
+                      "serviu":  null
+                  }
+              ],
+    "entregador":  "Motoboy Carlos",
+    "custo_entrega":  30.00,
+    "data_despacho":  "2026-11-11T08:36:24",
+    "motivo_cancelamento":  null,
+    "data_cancelamento":  null,
+    "foi_entrevista":  null,
+    "comentario_feedback":  null,
+    "data_feedback":  null
+}

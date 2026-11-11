@@ -1,0 +1,20 @@
+CREATE TABLE jovens (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    nome VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL,
+    telefone VARCHAR(255) NOT NULL,
+    tamanho VARCHAR(20) NOT NULL,
+    ong_id BIGINT NOT NULL,
+    logradouro VARCHAR(255),
+    numero VARCHAR(255),
+    complemento VARCHAR(255),
+    bairro VARCHAR(255),
+    cidade VARCHAR(255),
+    uf VARCHAR(2),
+    cep VARCHAR(9),
+    consentimento_aceito TINYINT(1) NOT NULL DEFAULT 0,
+    data_consentimento DATETIME,
+    validado TINYINT(1) NOT NULL DEFAULT 0,
+    ativo TINYINT(1) NOT NULL DEFAULT 1,
+    CONSTRAINT fk_jovens_ongs FOREIGN KEY (ong_id) REFERENCES ongs (id)
+);

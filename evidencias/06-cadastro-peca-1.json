@@ -1,0 +1,12 @@
+{
+    "id":  1,
+    "nome":  "Camisa social branca",
+    "categoria":  "CAMISA",
+    "tamanho":  "M",
+    "estado_conservacao":  "NOVO",
+    "foto_url":  "https://exemplo.com/camisa.jpg",
+    "local_armazem":  "A1",
+    "origem":  "Doação",
+    "status":  "DISPONIVEL",
+    "motivo_descarte":  null
+}
