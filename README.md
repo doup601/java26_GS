@@ -10,7 +10,7 @@
 | **Problema** | Jovens em vulnerabilidade não têm roupas sociais adequadas para entrevistas e oportunidades de trabalho, enquanto doações de roupas chegam às ONGs de forma desorganizada, sem rastreio, sem curadoria de tamanho e sem garantia de que cheguem a quem realmente precisa. |
 | **Como a solução resolve** | A TRAJEtória é uma API que conecta ONGs, operação logística e jovens em um único fluxo: as ONGs cadastram e validam os jovens; a operação organiza o acervo de peças (com categoria, tamanho, estado de conservação e foto); o jovem solicita um pedido de até 5 peças; a operação aprova, separa, despacha e entrega; e o jovem devolve feedback informando quais peças realmente serviram, realimentando o acervo. |
 | **Partes envolvidas** | ONGs parceiras (cadastro e validação dos jovens), operação da TRAJEtória (gestão do acervo e logística de entrega), jovens beneficiados (solicitação e feedback) e administração da plataforma. |
-| **Repositório** | `https://github.com/<usuario>/trajetoria` *(substituir pelo link do repositório publicado)* |
+| **Repositório** | `https://github.com/doup601/java26_GS`  |
 | **Indicador de impacto** | Percentual de peças entregues que "serviram" segundo o feedback dos jovens (peças reprovadas voltam ao acervo) e número de jovens atendidos por mês. |
 | **ODS relacionados** | **ODS 10** — Redução das Desigualdades (acesso a vestuário adequado para ingresso no mercado de trabalho); **ODS 8** — Trabalho Decente e Crescimento Econômico (apoio à empregabilidade de jovens); **ODS 12** — Consumo e Produção Responsáveis (reuso de roupas por meio da doação organizada). |
 
